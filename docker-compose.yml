@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: brain_battles_be
+    depends_on:
+      - mysqldb
+    build: .
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $PORT:$PORT
+    command: "./docker-entrypoint.sh"
+    networks:
+      - nest_server
+
+  mysqldb:
+    image: mysql:8.0
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $DATABASE_PORT:$DATABASE_PORT
+    environment:
+      MYSQL_ROOT_PASSWORD: $DATABASE_PASSWORD
+      MYSQL_DATABASE: $DATABASE
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - nest_server
+
+volumes:
+  db:
+networks:
+  nest_server:
+    driver: bridge

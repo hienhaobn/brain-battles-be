@@ -1,0 +1,26 @@
+{
+	"singleQuote": true,
+	"trailingComma": "all",
+	"semi": true,
+	"printWidth": 120,
+	"tabWidth": 2,
+	"useTabs": true,
+	"arrowParens": "avoid",
+	"importOrder": [
+		"^@nest/(.*)$",
+		"^@auth/(.*)$",
+		"^@configs/(.*)$",
+		"^@constants/(.*)$",
+		"^@core/(.*)$",
+		"^@entities/(.*)$",
+		"^@guards/(.*)$",
+		"^@modules/(.*)$",
+		"^@shared/(.*)$",
+		"^~/(.*)$",
+		"^[./]"
+	],
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true,
+	"importOrderCaseInsensitive": true,
+	"importOrderParserPlugins": ["classProperties", "decorators-legacy", "typescript"]
+}
