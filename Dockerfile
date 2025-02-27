@@ -12,6 +12,9 @@ RUN npm rebuild bcrypt
 RUN npm rebuild sharp
 
 COPY . .
+
+COPY src/ src/
+
 COPY docker-entrypoint.sh .
 RUN chmod +x docker-entrypoint.sh
 
@@ -19,7 +22,7 @@ RUN chmod +x docker-entrypoint.sh
 RUN npm run build
 
 # Không xóa devDependencies vì cần cho migration
-# RUN npm ci --only=production --ignore-scripts
+RUN npm ci --only=production --ignore-scripts
 
 EXPOSE 3000
 
