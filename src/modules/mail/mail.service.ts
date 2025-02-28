@@ -1,3 +1,4 @@
+import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SES } from 'aws-sdk';
@@ -9,13 +10,16 @@ import { EEnvKey } from '@constants/env.constant';
 import { awsHelper } from '@shared/helpers/aws.helper';
 
 import { EMailSubject } from './mail.constant';
-import { IMailExample, IMailForgotPasswordVerify, IMailRegisterVerify } from './mail.interface';
+import { IMailForgotPasswordVerify, IMailRegisterVerify } from './mail.interface';
 
 @Injectable()
 export class MailService {
 	private readonly logger = new Logger(this.constructor.name);
 
-	constructor(private readonly configService: ConfigService) {}
+	constructor(
+		private readonly configService: ConfigService,
+		private readonly mailerService: MailerService,
+	) {}
 
 	private async sendMail(
 		toAddress: string | string[],
@@ -44,15 +48,34 @@ export class MailService {
 		}
 	}
 
-	sendExampleMail(toAddress: string, data?: IMailExample, bcc?: string | string[]) {
-		return this.sendMail(toAddress, EMailSubject.Example, 'example-email', data, bcc);
-	}
-
-	sendRegisterVerify(toAddress: string, data?: IMailRegisterVerify) {
-		return this.sendMail(toAddress, EMailSubject.REGISTER_VERIFY, 'register-verify', data);
+	async sendRegisterVerify(toAddress: string, data: IMailRegisterVerify) {
+		await this.mailerService.sendMail({
+			to: toAddress,
+			subject: EMailSubject.REGISTER_VERIFY,
+			template: 'register-verify',
+			context: data,
+		});
 	}
 
 	sendForgotPasswordVerify(toAddress: string, data?: IMailForgotPasswordVerify) {
-		return this.sendMail(toAddress, EMailSubject.FORGOT_PASSWORD_VERIFY, 'forgot-password-verify', data);
+		return this.mailerService.sendMail({
+			to: toAddress,
+			subject: EMailSubject.FORGOT_PASSWORD_VERIFY,
+			template: 'forgot-password-verify',
+			context: data,
+		});
+	}
+
+	async sendWelcomeEmail(userEmail: string, username: string, verificationCode: string) {
+		await this.mailerService.sendMail({
+			to: userEmail,
+			subject: 'Welcome to Our Platform!',
+			template: 'welcome',
+			context: {
+				username,
+				code: verificationCode,
+				supportEmail: 'support@example.com',
+			},
+		});
 	}
 }

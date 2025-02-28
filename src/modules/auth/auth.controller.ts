@@ -2,6 +2,8 @@ import { Body, Controller, Req } from '@nestjs/common';
 import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 
+import { MailService } from '@modules/mail/mail.service';
+
 import { HttpPost } from '@shared/decorators/controller/http-methods.decorator';
 import { HttpResponse } from '@shared/decorators/controller/http-response.decorator';
 import { AuthException } from '@shared/exceptions/http-exceptions/auth.exception';
@@ -21,7 +23,10 @@ import { LoginResDto, RefreshTokenResDto } from './dtos/auth-response.dto';
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
-	constructor(private readonly authService: AuthService) {}
+	constructor(
+		private readonly authService: AuthService,
+		private readonly mailService: MailService,
+	) {}
 
 	@HttpPost('login', { isPublic: true })
 	// @ApiOkResponse({ type: LoginResDto })
@@ -69,5 +74,10 @@ export class AuthController {
 	})
 	test() {
 		return;
+	}
+
+	@HttpPost('test-mail', { isPublic: true })
+	testMail() {
+		return this.mailService.sendWelcomeEmail('hienhao021198@gmail.com', 'Hien Hao', '123456');
 	}
 }

@@ -225,6 +225,10 @@ export class AuthService {
 		return query;
 	}
 
+	private sendMailExample(email: string) {
+		this.mailService.sendWelcomeEmail(email, 'John Doe', '123456');
+	}
+
 	private hashPassword(password: string) {
 		return hashSync(password, 10);
 	}

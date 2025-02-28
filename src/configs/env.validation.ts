@@ -80,4 +80,37 @@ class EnvironmentVariables implements Record<EEnvKey, number | string> {
 
 	@DtoString()
 	CLIENT_URL: string;
+
+	@DtoString()
+	MAIL_HOST: string;
+
+	@DtoString()
+	MAIL_SERVICE: string;
+
+	@DtoString()
+	MAIL_DOMAIN: string;
+
+	@DtoInt({ min: 1, optional: true })
+	MAIL_PORT: number;
+
+	@DtoString({ optional: true })
+	MAIL_SECURE: string;
+
+	@DtoString()
+	MAIL_ACCOUNT: string;
+
+	@DtoString()
+	MAIL_PASSWORD: string;
+
+	@DtoString()
+	MAIL_FROM_ADDRESS: string;
+
+	@DtoString()
+	MAIL_FROM_NAME: string;
+
+	@DtoString({ optional: true })
+	MAIL_TLS_REJECT_UNAUTHORIZED: string;
+
+	@DtoString()
+	MAIL_ENABLE: string;
 }

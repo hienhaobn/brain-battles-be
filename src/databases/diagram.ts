@@ -1,4 +1,5 @@
 import { writeFileSync } from 'fs';
+
 import datasource from './data-source';
 
 async function generateMermaidERD() {
