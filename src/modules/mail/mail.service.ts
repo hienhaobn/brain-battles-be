@@ -49,33 +49,45 @@ export class MailService {
 	}
 
 	async sendRegisterVerify(toAddress: string, data: IMailRegisterVerify) {
-		await this.mailerService.sendMail({
-			to: toAddress,
-			subject: EMailSubject.REGISTER_VERIFY,
-			template: 'register-verify',
-			context: data,
-		});
+		try {
+			await this.mailerService.sendMail({
+				to: toAddress,
+				subject: EMailSubject.REGISTER_VERIFY,
+				template: 'register-verify',
+				context: data,
+			});
+		} catch (error) {
+			this.logger.error(error?.message || error);
+		}
 	}
 
-	sendForgotPasswordVerify(toAddress: string, data?: IMailForgotPasswordVerify) {
-		return this.mailerService.sendMail({
-			to: toAddress,
-			subject: EMailSubject.FORGOT_PASSWORD_VERIFY,
-			template: 'forgot-password-verify',
-			context: data,
-		});
+	async sendForgotPasswordVerify(toAddress: string, data?: IMailForgotPasswordVerify) {
+		try {
+			await this.mailerService.sendMail({
+				to: toAddress,
+				subject: EMailSubject.FORGOT_PASSWORD_VERIFY,
+				template: 'forgot-password-verify',
+				context: data,
+			});
+		} catch (error) {
+			this.logger.error(error?.message || error);
+		}
 	}
 
 	async sendWelcomeEmail(userEmail: string, username: string, verificationCode: string) {
-		await this.mailerService.sendMail({
-			to: userEmail,
-			subject: 'Welcome to Our Platform!',
-			template: 'welcome',
-			context: {
-				username,
-				code: verificationCode,
-				supportEmail: 'support@example.com',
-			},
-		});
+		try {
+			await this.mailerService.sendMail({
+				to: userEmail,
+				subject: 'Welcome to Our Platform!',
+				template: 'welcome',
+				context: {
+					username,
+					code: verificationCode,
+					supportEmail: 'support@example.com',
+				},
+			});
+		} catch (error) {
+			this.logger.error(error?.message || error);
+		}
 	}
 }

@@ -25,7 +25,7 @@ export function generateVerifyUrl(url: string, uid: string, email: string, conte
 }
 
 export function getUrlVerifyRegister(clientUrl: string) {
-	return `${clientUrl}/auth/register/verify`;
+	return `${clientUrl}/auth/verify`;
 }
 
 export function getUrlVerifyForgotPassword(clientUrl: string) {

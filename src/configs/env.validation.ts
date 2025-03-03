@@ -87,9 +87,6 @@ class EnvironmentVariables implements Record<EEnvKey, number | string> {
 	@DtoString()
 	MAIL_SERVICE: string;
 
-	@DtoString()
-	MAIL_DOMAIN: string;
-
 	@DtoInt({ min: 1, optional: true })
 	MAIL_PORT: number;
 

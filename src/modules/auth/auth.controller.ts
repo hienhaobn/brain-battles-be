@@ -1,10 +1,10 @@
-import { Body, Controller, Req } from '@nestjs/common';
+import { Body, Controller, Query, Req } from '@nestjs/common';
 import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 
 import { MailService } from '@modules/mail/mail.service';
 
-import { HttpPost } from '@shared/decorators/controller/http-methods.decorator';
+import { HttpGet, HttpPost } from '@shared/decorators/controller/http-methods.decorator';
 import { HttpResponse } from '@shared/decorators/controller/http-response.decorator';
 import { AuthException } from '@shared/exceptions/http-exceptions/auth.exception';
 import { httpExDocResponse } from '@shared/exceptions/http.exception';
@@ -40,9 +40,9 @@ export class AuthController {
 		await this.authService.register(body);
 	}
 
-	@HttpPost('verify', { isPublic: true })
-	verify(@Body() body: VerifyBodyRequest) {
-		return this.authService.verify(body);
+	@HttpGet('verify', { isPublic: true })
+	verify(@Query() query: VerifyBodyRequest) {
+		return this.authService.verify(query);
 	}
 
 	@HttpPost('refresh-token', { isPublic: true })
